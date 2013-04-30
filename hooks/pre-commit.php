@@ -1,10 +1,6 @@
 #!/usr/bin/env php
 <?php
-/**
- * @description pre-commit check
- * @require php 5.3.2 or higher
- * only check the staged file content for syntax errors
- */
+// TODO 抽象下面的逻辑，更加有条理，界面更友好
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(realpath(__DIR__)) . DS);
@@ -33,7 +29,11 @@ foreach ($fileList as $fileAttrs) {
     $status = strtoupper($attrs[4]);
     $filename = $attrs[5];
 
-    if (!preg_match('/\.(php|js|css|ctp)$/i', $filename, $match)) {
+    if (strpos($filename, 'vendor/') !== false) {
+        continue;
+    }
+
+    if (!preg_match('/\.(php|js|css)$/i', $filename, $match)) {
         continue;
     }
 
@@ -51,7 +51,6 @@ foreach ($fileList as $fileAttrs) {
 
     switch ($ext) {
         case 'php':
-        case 'ctp':
             // php -l
             exec("$PHP -l $tmpFilename $REDIRECT", $output, $return);
             if ($return) {
@@ -81,9 +80,6 @@ foreach ($fileList as $fileAttrs) {
         // jshint
         case 'js':
             exec("$JSHINT --config $JSHINTRC $tmpFilename", $output, $return);
-            foreach ($output as $key => $line) {
-                $output[$key] = str_replace($tmpFilename . ':', '', $line);
-            }
 
             if ($return) {
                 $exitCode = 1;
@@ -91,7 +87,7 @@ foreach ($fileList as $fileAttrs) {
                     if (empty($line)) {
                         continue;
                     }
-                    $errmsg[] = sprintf(" - %s:%s \n", $filename, $line);
+                    $errmsg[] = sprintf(" - %s \n", str_replace(array($tmpFilename, ' line ', ', col '), array($filename, '', ':'), $line));
                 }
             }
         break;
