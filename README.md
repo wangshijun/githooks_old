@@ -21,11 +21,14 @@ git clone https://github.com/wangshijun/githooks
 ``
 
 Under your git repo root, make symbol link
+
 ``
 ln -sf /path/to/githooks-repo/hooks/pre-commit.php .git/hooks/pre-commit
+``
 
 Configuration
 -------------
+
 ``
 .jshintrc
 .csshintrc
