@@ -19,7 +19,6 @@ rules:
   no-empty-character-class: 2
   no-ex-assign: 2
   no-extra-boolean-cast: 2
-  no-extra-parens: 2
   no-extra-semi: 2
   no-func-assign: 2
   no-inner-declarations: 2
@@ -56,7 +55,7 @@ rules:
   no-throw-literal: 2
   no-unused-expressions: 2
   no-void: 2
-  no-warning-comments: [2, { "terms": ["todo", "fixme", "xxx"], "location": "start"  }]
+  no-warning-comments: [1, { "terms": ["todo", "fixme", "xxx"], "location": "start"  }]
   no-with: 2
   radix: 2
   no-delete-var: 2
@@ -67,7 +66,7 @@ rules:
   brace-style: [2, "1tbs", { "allowSingleLine": true }]
   comma-spacing: 2
   comma-style: 2
-  indent: 2
+  indent: [2, 4, {"SwitchCase": 1}]
   key-spacing: 2
   max-nested-callbacks: [2, 5]
   no-lonely-if: 2
@@ -75,7 +74,7 @@ rules:
   no-nested-ternary: 2
   no-spaced-func: 2
   no-trailing-spaces: 2
-  one-var: [2, "never"]
+  one-var: [2, { uninitialized: "always", initialized: "never" }]
   operator-linebreak: 2
   quote-props: [2, "as-needed"]
   quotes: [2, "single", "avoid-escape"]
