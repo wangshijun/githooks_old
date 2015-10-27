@@ -6,9 +6,12 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(realpath(__DIR__)) . DS);
 
 $REDIRECT = ' 2> /dev/null';
+$CWD = getcwd();
 $PHP = 'php';
 $JSHINT = 'jshint';
-$JSHINTRC = '.jshintrc';
+$JSHINTRC = $CWD . DS . '.jshintrc';
+$ESLINT = 'eslint';
+$ESLINTRC = $CWD . DS . '.eslintrc';
 $CSSLINT = 'csslint';
 $PHPCS = ROOT . 'vendor/bin/phpcs';
 $TMP = ROOT . '.tmp' . DS;
@@ -79,15 +82,26 @@ foreach ($fileList as $fileAttrs) {
 
         // jshint
         case 'js':
-            exec("$JSHINT --config $JSHINTRC $tmpFilename", $output, $return);
-
-            if ($return) {
-                $exitCode = 1;
-                foreach ($output as $line) {
-                    if (empty($line)) {
-                        continue;
+            if (file_exists($ESLINTRC)) {
+                exec("$ESLINT -f json --config $ESLINTRC $tmpFilename", $output, $return);
+                if ($return) {
+                    $exitCode = 1;
+                    $object = array_shift(json_decode($output[0]));
+                    $filepath = str_replace($tmpFilename, $filename, $object->filePath);
+                    foreach ($object->messages as $message) {
+                        $errmsg[] = sprintf(" - %s:%d:%d\t%s\n", $filepath, $message->line, $message->column, $message->message);
                     }
-                    $errmsg[] = sprintf(" - %s \n", str_replace(array($tmpFilename, ' line ', ', col '), array($filename, '', ':'), $line));
+                }
+            } else if (file_exists($JSHINTRC)) {
+                exec("$JSHINT --config $JSHINTRC $tmpFilename", $output, $return);
+                if ($return) {
+                    $exitCode = 1;
+                    foreach ($output as $line) {
+                        if (empty($line)) {
+                            continue;
+                        }
+                        $errmsg[] = sprintf(" - %s \n", str_replace(array($tmpFilename, ' line ', ', col '), array($filename, '', ':'), $line));
+                    }
                 }
             }
         break;
