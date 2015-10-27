@@ -27,7 +27,7 @@ ln -sf /path/to/githooks-repo/hooks/pre-commit.php .git/hooks/pre-commit
 Configuration
 -------------
 
-In your project folder, add following config files if neccessary
+In your project folder, add following config files if neccessary (you can just copy from my repo)
 
 * .eslintrc
 * .jshintrc
