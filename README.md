@@ -1,17 +1,15 @@
-gitqatools
+GitHooks
 =========
 
 Git Repostiroy Quality Assurance Tools
 
 Installation
 ------------
-* jshint command line https://github.com/jshint/jshint
-    npm install -g jshint
-* csshint command line https://github.com/stubbornella/csslint
-    npm install -g csshint
-* php code sniffer https://github.com/squizlabs/php_codesniffer
-    composer install
-* php lint wget http://www.icosaedro.it/phplint/phplint-pure-c-1.1_20120402.tar.gz
+
+* eslint https://github.com/eslint/eslint `npm install -g eslint`
+* jshint https://github.com/jshint/jshint `npm install -g jshint`
+* csshint https://github.com/stubbornella/csslint `npm install -g csshint`
+* php code sniffer https://github.com/squizlabs/php_codesniffer `composer install`
 
 Usage
 -------------
@@ -29,7 +27,8 @@ ln -sf /path/to/githooks-repo/hooks/pre-commit.php .git/hooks/pre-commit
 Configuration
 -------------
 
-``
-.jshintrc
-.csshintrc
-``
+In your project folder, add following config files if neccessary
+
+* .eslintrc
+* .jshintrc
+* .csshintrc
