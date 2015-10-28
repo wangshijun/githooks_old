@@ -80,7 +80,7 @@ foreach ($fileList as $fileAttrs) {
             }
         break;
 
-        // jshint
+        // jshint | eslint
         case 'js':
             if (file_exists($ESLINTRC)) {
                 exec("$ESLINT -f json --config $ESLINTRC $tmpFilename", $output, $return);
@@ -89,7 +89,7 @@ foreach ($fileList as $fileAttrs) {
                     $object = array_shift(json_decode($output[0]));
                     $filepath = str_replace($tmpFilename, $filename, $object->filePath);
                     foreach ($object->messages as $message) {
-                        $errmsg[] = sprintf(" - %s:%d:%d\t%s\n", $filepath, $message->line, $message->column, $message->message);
+                        $errmsg[] = sprintf(" - %s:%d:%d [%s]\t%s\n", $filepath, $message->line, $message->column, $message->ruleId, $message->message);
                     }
                 }
             } else if (file_exists($JSHINTRC)) {
