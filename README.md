@@ -3,6 +3,8 @@ GitHooks
 
 Git Repostiroy Quality Assurance Tools
 
+** DEPRECATED: see my new githooks repo instead, which include pre-commit and pre-receive hook **
+
 Installation
 ------------
 
